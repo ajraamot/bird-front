@@ -1,0 +1,131 @@
+#app {
+  font: 14px 'Arial';
+  color: indigo;
+  min-width: 550px;
+  margin: 0 0 0 0;
+}
+
+
+a.active {
+  color: orange;
+}
+
+nav {
+  padding-top: 20px;
+  text-align: right;
+}
+
+.title {
+  font-size: 60px;
+}
+
+div.home {
+  min-width:979px;
+  min-height:734px;
+  background-image: url('../images/goldfinch3.jpg');
+  background-repeat: no-repeat;
+  background-size:cover;
+  margin-left: 0;
+}
+
+div.home, img{
+  width: 100%;
+  height: 100%;
+}
+
+.select-region {
+  margin-left: 15%;
+  margin-top: 15%;
+}
+
+.btn-primary {
+  margin-left: 30%;
+  margin-top: 10%;
+  width: 100px;
+  vertical-align: middle;
+}
+
+.add-bird-image {
+  max-width: 275px;
+  max-height: 275px;
+  border: 0;
+  /*background-image: url('../images/goldfinch3.jpg');*/
+}
+
+.bird-row {
+  display: flex;
+  flex-direction: row;
+  border-style: solid none solid none;
+  border-width: 1px;
+  width: 1004px;
+}
+
+.bird-species {
+  display: flex;
+  flex-direction: row;
+  width: 253px;
+  background-color: aliceblue;
+}
+
+.bird-sound {
+  display: flex;
+  flex-direction: row;
+  width: 101px;
+  background-color: aliceblue;
+}
+
+.bird-image {
+  display: flex;
+  flex-direction: row;
+  width: 150px;
+  background-color: aliceblue;
+}
+
+.bird-order {
+  display: flex;
+  flex-direction: row;
+  width: 125px;
+  background-color: aliceblue;
+}
+
+.bird-family {
+  display: flex;
+  flex-direction: row;
+  width: 125px;
+  background-color: aliceblue;
+}
+
+.bird-region {
+  display: flex;
+  flex-direction: row;
+  width: 50px;
+  background-color: aliceblue;
+}
+
+.bird-table-header {
+  font-weight: bold;
+}
+
+.input-species {
+  width: 253px;
+}
+
+.input-sound {
+  width: 101px;
+}
+
+.input-image {
+  width: 150px;
+}
+
+.input-order {
+  width: 125px;
+}
+
+.input-family {
+  width: 125px;
+}
+
+.input-region {
+  width: 49px;
+}

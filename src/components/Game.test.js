@@ -145,6 +145,21 @@ describe('Game', () => {
       // expect(gameWithState.state.currentBirdIndex) == originalIndex + 1;
     });
     it('clears the Enter Species field', () => {
+      // TODO: This test is failing. To make it pass, I think I will need to
+      // have a state that corresponds to whatever is in the species input, and
+      // then do a setState to empty string when clicking Next Bird
+      let gameWithState;
+      gameWithState = shallow(<Game.WrappedComponent
+        getAllBirds={mockGetAllBirds}
+        currentBirdIndex={0}
+        birds={[{species: 'timberdoodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+      />);
+      gameWithState.find('input').at(1).simulate('change', {target: {value: 'timerdoodle'}});
+      gameWithState.find('input').at(3).simulate('click');
+
+      console.log('!!!!!!!!!!!!!! input field has text = ' + gameWithState.find('input').at(1).value);
+
+      expect(gameWithState.find('input').at(1).value).toEqual("");
 
     });
   });

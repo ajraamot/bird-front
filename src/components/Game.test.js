@@ -2,7 +2,8 @@
 
 import expect from 'expect';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import jest from 'jest';
 import renderer from 'react-test-renderer';
 import Game, { mapStateToProps, mapDispatchToProps } from './Game';
@@ -11,6 +12,7 @@ import { getAllBirds as mockGetAllBirds } from '../actions/addBirdActions';
 import constants from '../constants';
 
 describe('Game', () => {
+  configure({ adapter: new Adapter() });
   let game;
   beforeEach(() => {
     game = shallow(<Game.WrappedComponent

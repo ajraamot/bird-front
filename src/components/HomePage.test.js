@@ -1,17 +1,12 @@
 import expect from 'expect';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import jest from 'jest';
 import renderer from 'react-test-renderer';
 import HomePage from './HomePage';
 //
 // jest.unmock('./HomePage');
-
-describe('Our first test', () => {
-  it('should pass', () => {
-    expect(true).toEqual(true);
-  });
-});
 
 // describe('render', () => {
 //   it('renders correctly', () => {
@@ -21,6 +16,7 @@ describe('Our first test', () => {
 // });
 
 describe('HomePage', () => {
+  configure({ adapter: new Adapter() });
   let home;
   beforeEach(() => {
     home = shallow(<HomePage />);

@@ -125,13 +125,13 @@ class Game extends React.Component {
 
 
   onSpeciesEntered(event) {
-    var speciesEntered = event.target.value;
-    var birdFromProps;
+    let speciesEntered = event.target.value;
+    let birdFromProps;
     speciesEntered = speciesEntered.trim().toLowerCase();
     let anchorTagsToDisplay = '';
 
     if(speciesEntered.trim().length >= 3) {
-      for(var i = 0; i < this.props.birds.length; i++) {
+      for(let i = 0; i < this.props.birds.length; i++) {
         birdFromProps = this.props.birds[i].species.trim().toLowerCase();
         if(birdFromProps.includes(speciesEntered)) {
           anchorTagsToDisplay += (' <a>' + this.props.birds[i].species + '</a>');

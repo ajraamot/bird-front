@@ -1,11 +1,13 @@
 import expect from 'expect';
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import jest from 'jest';
 import renderer from 'react-test-renderer';
 import Header from './Header';
 
 describe('Header', () => {
+  configure({ adapter: new Adapter() });
   let header;
   beforeEach(() => {
     header = shallow(<Header />);

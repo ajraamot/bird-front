@@ -2,12 +2,14 @@
 
 import expect from 'expect';
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import jest from 'jest';
 // import renderer from 'react-test-renderer';
 import App from './App';
 
 describe('Our first test', () => {
+  configure({ adapter: new Adapter() });
   it('should pass', () => {
     expect(true).toEqual(true);
   });

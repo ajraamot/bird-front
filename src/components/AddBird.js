@@ -210,7 +210,7 @@ class AddBird extends React.Component {
             type="text"
             onChange={this.onUSCanadaChange}
             value={this.state.bird.allUSCanada}>
-            <option value=""></option>
+            <option value="" />
             <option value="all">all</option>
             <option value="win">win</option>
             <option value="mig">mig</option>
@@ -221,7 +221,7 @@ class AddBird extends React.Component {
             type="text"
             onChange={this.onUpperMidwestChange}
             value={this.state.bird.upperMidwest}>
-            <option value=""></option>
+            <option value="" />
             <option value="all">all</option>
             <option value="win">win</option>
             <option value="mig">mig</option>
@@ -232,7 +232,7 @@ class AddBird extends React.Component {
             type="text"
             onChange={this.onGreatPlainsChange}
             value={this.state.bird.greatPlains}>
-            <option value=""></option>
+            <option value="" />
             <option value="all">all</option>
             <option value="win">win</option>
             <option value="mig">mig</option>
@@ -243,7 +243,7 @@ class AddBird extends React.Component {
             type="text"
             onChange={this.onRockyMountainsChange}
             value={this.state.bird.rockyMountains}>
-            <option value=""></option>
+            <option value="" />
             <option value="all">all</option>
             <option value="win">win</option>
             <option value="mig">mig</option>
@@ -254,7 +254,7 @@ class AddBird extends React.Component {
             type="text"
             onChange={this.onPacificNorthwestChange}
             value={this.state.bird.pacificNorthwest}>
-            <option value=""></option>
+            <option value="" />
             <option value="all">all</option>
             <option value="win">win</option>
             <option value="mig">mig</option>

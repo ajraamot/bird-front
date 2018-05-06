@@ -3,7 +3,8 @@
 
 import expect from 'expect';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import jest from 'jest';
 import renderer from 'react-test-renderer';
 import AddBird from './AddBird';
@@ -16,6 +17,7 @@ import { addBird as mockAddBirdActions, getAllBirds as mockGetAllBirds } from '.
 import constants from '../constants';
 
 describe('AddBird testing with renderer', () => {
+  configure({ adapter: new Adapter() });
   let addBird;
   const timberdoodle = {species: 'timberdoodle', sound: 'peent!'};
   const gammyBird = {species: 'gammy bird', sound: 'ooohhh!'};

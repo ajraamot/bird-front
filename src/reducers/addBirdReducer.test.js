@@ -44,4 +44,16 @@ describe('addBirdReducer', () => {
     });
     expect(newBirdState).toEqual(birds);
   });
+
+    it('GET_ALL_BIRDS_FETCH_FAILED returns current state', () => {
+      const timberdoodle = {species: 'timberdoodle', sound: 'peent!'};
+      const gammyBird = {species: 'gammy bird', sound: 'ooohhh!'};
+      const oldState = [timberdoodle, gammyBird];
+
+      const newBirdState = addBirdReducer(oldState, {
+        type: types.GET_ALL_BIRDS_FETCH_SUCCEEDED,
+        error: 'error fetching birds'
+      });
+      expect(newBirdState).toEqual(oldState);
+    });
 });

@@ -129,3 +129,20 @@ div.home, img{
 .input-region {
   width: 49px;
 }
+
+.btn__play--green {
+  color: white;
+  background: green;
+  height: 50px;
+}
+
+.btn__check--blue {
+  color: white;
+  background: blue;
+  height: 50px;
+}
+
+.btn__next--white {
+  color: green;
+  height: 50px;
+}

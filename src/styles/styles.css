@@ -145,4 +145,10 @@ div.home, img{
 .btn__next--white {
   color: green;
   height: 50px;
+  margin-left: 10px;
+}
+
+.button-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

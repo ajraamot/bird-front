@@ -167,8 +167,9 @@ class Game extends React.Component {
     return (
       <div>
         <h1>Game</h1>
-        <div>
-        <input type="button"
+        <div className="button-container">
+        <input className="btn__play--green"
+               type="button"
                value="Play Sound"
                onClick={this.playSound}
                  />
@@ -176,11 +177,13 @@ class Game extends React.Component {
         Enter Species: <input type="text"
                               onChange={this.onSpeciesEntered}/>
         <SpeciesSearchResults/>
-        <input type="button"
+        <div className="button-container">
+        <input className="btn__check--blue"
+               type="button"
                value="Check Answer"
                onClick={this.showAnswer} />
-        <div>
-          <input type="button"
+          <input className="btn__next--white"
+                 type="button"
                  value="Next Bird"
                  onClick={this.getNextBird} />
         </div>

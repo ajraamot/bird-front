@@ -19,7 +19,8 @@ class Game extends React.Component {
       score: 0,
       totalShownSoFar: 0,
       anchorTagsToDisplay: '',
-      speciesList: [],
+      speciesEntered: '',
+      speciesList: this.props.birds.map((species) => { return species['species']; }),
       bird: {
         species: '',
         sound: '',
@@ -34,18 +35,14 @@ class Game extends React.Component {
       }
     };
 
-
     // it is better for performance to put the bind methods here and not in render
     this.onSpeciesEntered = this.onSpeciesEntered.bind(this);
     this.getNextBird = this.getNextBird.bind(this);
     this.getNextBirdInfo = this.getNextBirdInfo.bind(this);
     this.playSound = this.playSound.bind(this);
     this.showAnswer = this.showAnswer.bind(this);
-    this.getSpeciesList = this.getSpeciesList.bind(this);
     this.getLink = this.getLink.bind(this);
-    // this.showInputSpeciesMatches = this.showInputSpeciesMatches.bind(this);
-
-    // makeSpeciesList();
+    console.log('in Game constructor, speciesList = ' + JSON.stringify(this.state.speciesList));
   }
 
   playSound() {
@@ -83,24 +80,7 @@ class Game extends React.Component {
     console.log('leaving getNextBird!!!!!!!');
   }
 
-  getSpeciesList(birds) {
-    // THIS WORKS
-    this.setState({
-      speciesList: this.state.speciesList.push({value: birds.sound, label: birds.species})
-    });
-    console.log('>>>>>>>>>>>>>> in getSpeciesList, speciesList = ', this.state.speciesList);
-  }
-
-
-
   getNextBirdInfo(birds, index) {
-    // console.log('>>>> id=', birds.sound, ' value=', birds.species, ' species list = ', this.state.speciesList);
-    // this.setState({speciesList: [...this.state.speciesList, {value: birds.sound, label: birds.species}]});
-    // console.log('>>>> species list = ', this.state.speciesList);
-
-    // var multiSelectList = this.props.birds.map((species, sound) => {value: sound, label: species});
-    // this.getSpeciesList(birds);
-
     if (index === this.state.currentBirdIndex) {
       console.log('current bird is ', birds);
       console.log('bird sound is ', birds.sound);
@@ -115,45 +95,12 @@ class Game extends React.Component {
     }
   }
 
-  // showInputSpeciesMatches() {
-  //   this.setState({
-  //     speciesList: this.state.speciesList.push({value: birds.sound, label: birds.species})
-  //   });
-  //   console.log('>>>>>>>>>>>>>> in getSpeciesList, speciesList = ', this.state.speciesList);
-  //   debugger;
-  // }
-
-
   onSpeciesEntered(event) {
-    let speciesEntered = event.target.value;
-    let birdFromProps;
-    speciesEntered = speciesEntered.trim().toLowerCase();
-    let anchorTagsToDisplay = '';
-
-    if(speciesEntered.trim().length >= 3) {
-      for(let i = 0; i < this.props.birds.length; i++) {
-        birdFromProps = this.props.birds[i].species.trim().toLowerCase();
-        if(birdFromProps.includes(speciesEntered)) {
-          anchorTagsToDisplay += (' <a>' + this.props.birds[i].species + '</a>');
-        }
-      }
-    }
-    console.log('>>>>> speciesEntered: ' + speciesEntered + ', birdFromProps: ' + birdFromProps);
+    this.setState({speciesEntered: event.target.value});
     if(event.target.value.trim().toLowerCase() === this.state.bird.species.trim().toLowerCase()) {
       this.setState({correctAnswer: true});
     }
-    console.log(anchorTagsToDisplay);
-    // this.setState({anchorTagsToDisplay: anchorTagsToDisplay});
-    return anchorTagsToDisplay;
   }
-  // do something similar to the multi-select:
-  // https://jedwatson.github.io/react-select/
-  // or maybe
-  // https://stackoverflow.com/questions/22542696/search-only-display-matching-options-in-a-select-multi-list
-  // http://jsfiddle.net/djlerman/zP9uC/
-
-  // this.getLink(bird.species);
-  // maybe update the score, with something like this.setState({score});
 
   getLink (species) {
     let urlSpecies = species.trim();
@@ -176,7 +123,7 @@ class Game extends React.Component {
         </div>
         Enter Species: <input type="text"
                               onChange={this.onSpeciesEntered}/>
-        <SpeciesSearchResults/>
+        <SpeciesSearchResults searchString={this.state.speciesEntered} speciesList={this.state.speciesList}/>
         <div className="button-container">
         <input className="btn__check--blue"
                type="button"

@@ -77,8 +77,9 @@ describe('Game', () => {
     });
   });
 
-  describe('Enter Species', () => {
-    it('displays a dropdown when three characters have been input', () => {
+  describe('SpeciesSearchResults', () => {
+    it('passes list of species and searchString', () => {
+      expect(game.find('SpeciesSearchResults').props().children).toContain('')
 
     });
   });

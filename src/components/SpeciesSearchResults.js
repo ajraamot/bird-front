@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SpeciesSearchResults = (props) => {
+  // console.log(' 00000000 - in SpeciesSearch Results, speciesList = ' + this.props.speciesList);
   const searchListForString = () => {
     return props.searchString.length > 2 ?
       <div>

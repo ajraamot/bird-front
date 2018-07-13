@@ -42,15 +42,15 @@ class Game extends React.Component {
     this.playSound = this.playSound.bind(this);
     this.showAnswer = this.showAnswer.bind(this);
     this.getLink = this.getLink.bind(this);
-    console.log('in Game constructor, speciesList = ' + JSON.stringify(this.state.speciesList));
+    // console.log('in Game constructor, speciesList = ' + JSON.stringify(this.state.speciesList));
   }
 
   playSound() {
-    console.log('in playSound, current sound = ', this.state.bird.sound);
+    // console.log('in playSound, current sound = ', this.state.bird.sound);
     if (this.state.bird.sound) {
       new Audio(`${constants.SOUND_URL}${this.state.bird.sound}`).play();
     } else {
-      console.log('sound not found first time, trying again');
+      // console.log('sound not found first time, trying again');
       if(this.state.currentBirdIndex == 0) {
         this.getNextBird({}); // it needs to load the first bird
         window.setTimeout(this.playSound, 500);
@@ -76,20 +76,22 @@ class Game extends React.Component {
   getNextBird(event) {
     console.log('entering getNextBird!!!!!!!');
     this.props.birds.map(this.getNextBirdInfo);
-    this.setState({isAnswerShown: false});
+    this.setState({
+      isAnswerShown: false,
+      speciesEntered: ''
+    });
     console.log('leaving getNextBird!!!!!!!');
   }
 
   getNextBirdInfo(birds, index) {
     if (index === this.state.currentBirdIndex) {
-      console.log('current bird is ', birds);
-      console.log('bird sound is ', birds.sound);
-
+      // console.log('current bird is ', birds);
+      // console.log('bird sound is ', birds.sound);
       this.setState({
         bird: birds,
         correctAnswer: false
       });
-      console.log('in getNextBird, bird.species = ', this.state.bird.species);
+      // console.log('in getNextBird, bird.species = ', this.state.bird.species);
 
       this.setState({currentBirdIndex: this.state.currentBirdIndex + 1});
     }
@@ -122,6 +124,7 @@ class Game extends React.Component {
                  />
         </div>
         Enter Species: <input type="text"
+                              value={this.state.speciesEntered}
                               onChange={this.onSpeciesEntered}/>
         <SpeciesSearchResults searchString={this.state.speciesEntered} speciesList={this.state.speciesList}/>
         <div className="button-container">
@@ -163,7 +166,7 @@ function randomizeList(birdArray) {
 }
 
 export function mapDispatchToProps(dispatch) {
-  console.log('in Game.mapDispatchToProps, dispatch=' + JSON.stringify(dispatch) + ' and addBirdActions=' + JSON.stringify(addBirdActions));
+  // console.log('in Game.mapDispatchToProps, dispatch=' + JSON.stringify(dispatch) + ' and addBirdActions=' + JSON.stringify(addBirdActions));
   return {
     getAllBirds: () => dispatch(addBirdActions.getAllBirds()) // getAllBirds is an action
     // actions: bindActionCreators(addBirdActions, dispatch)

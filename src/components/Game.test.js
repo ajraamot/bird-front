@@ -147,25 +147,53 @@ describe('Game', () => {
       // expect(gameWithState.state.currentBirdIndex) == originalIndex + 1;
     });
     it('clears the Enter Species field', () => {
-      // TODO: This test is failing. To make it pass, I think I will need to
-      // have a state that corresponds to whatever is in the species input, and
-      // then do a setState to empty string when clicking Next Bird
-      let gameWithState;
-      gameWithState = shallow(<Game.WrappedComponent
+      let game;
+      game = shallow(<Game.WrappedComponent
         getAllBirds={mockGetAllBirds}
         currentBirdIndex={0}
         birds={[{species: 'timberdoodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
       />);
-      gameWithState.find('input').at(1).simulate('change', {target: {value: 'timerdoodle'}});
-      expect(gameWithState.find('input').at(1).value).toEqual('timberdoodle');
-      gameWithState.find('input').at(3).simulate('click');
+      game.find('input').at(1).simulate('change', {target: {value: 'timber doodle'}});
+      expect(game.find('input').at(1).value).toEqual('timber doodle');
+      game.find('input').at(3).simulate('click'); // Next Bird
 
-      console.log('!!!!!!!!!!!!!! input field has text = ' + gameWithState.find('input').at(1).value);
-      // expect(gameWithState.state.searchString).toEqual('');
-      // expect(gameWithState.find('input').at(1).value).toEqual("");
+      // console.log('!!!!!!!!!!!!!! input field has text = ' + gameWithState.find('input').at(1).value);
+      expect(game.find('input').at(1).prop('value')).toEqual(''); // Error: Expected undefined to equal 'timber doodle'
+    });
+  });
+  describe('SpeciesSearchResult', () => {
+    it('displays selected SpeciesSearchResults', () => {
+      let game;
+      game = mount(<Game.WrappedComponent // or should it be mount()?
+        getAllBirds={mockGetAllBirds}
+        currentBirdIndex={0}
+        birds={[{species: 'Timber Doodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+      />);
+
+      game.find('input').at(1).simulate('change', {target: {value: 'tim'}});
+      expect(game.find('a').at(0).props().children).toContain('Timber Doodle');
+    });
+
+    it('populates the input field with a selected SpeciesSearchResult', () => {
+      let game;
+      game = mount(<Game.WrappedComponent // or should it be mount()?
+        getAllBirds={mockGetAllBirds}
+        currentBirdIndex={0}
+        birds={[{species: 'Timber Doodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+      />);
+
+      game.find('input').at(1).simulate('change', {target: {value: 'tim'}});
+      expect(game.find('a').at(0).props().children).toContain('Timber Doodle');
+
+      // select the returned anchor from the SpeciesSearchResults
+      game.find('a').at(0).simulate('click'); // TypeError: Cannot read property 'props' of undefined
+      // game.find('a').simulate('click'); // Error: Method “simulate” is only meant to be run on a single node. 0 found instead.
+
+      expect(game.find('input').at(1).prop('value')).toEqual('Timber Doodle');
 
     });
   });
+
 
 
 

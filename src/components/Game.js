@@ -42,15 +42,13 @@ class Game extends React.Component {
     this.playSound = this.playSound.bind(this);
     this.showAnswer = this.showAnswer.bind(this);
     this.getLink = this.getLink.bind(this);
-    // console.log('in Game constructor, speciesList = ' + JSON.stringify(this.state.speciesList));
+    this.populateInputFieldWithSearchResult = this.populateInputFieldWithSearchResult.bind(this);
   }
 
   playSound() {
-    // console.log('in playSound, current sound = ', this.state.bird.sound);
     if (this.state.bird.sound) {
       new Audio(`${constants.SOUND_URL}${this.state.bird.sound}`).play();
     } else {
-      // console.log('sound not found first time, trying again');
       if(this.state.currentBirdIndex == 0) {
         this.getNextBird({}); // it needs to load the first bird
         window.setTimeout(this.playSound, 500);
@@ -58,6 +56,8 @@ class Game extends React.Component {
     }
   }
 
+  //TODO: There is a bug where a person can keep clicking Show Answer and getting points
+  // maybe to fix this, I can disable the button when it is clicked on and re-enable it when clicking next bird
   showAnswer() {
     if(this.state.correctAnswer) {
       this.setState({
@@ -85,13 +85,10 @@ class Game extends React.Component {
 
   getNextBirdInfo(birds, index) {
     if (index === this.state.currentBirdIndex) {
-      // console.log('current bird is ', birds);
-      // console.log('bird sound is ', birds.sound);
       this.setState({
         bird: birds,
         correctAnswer: false
       });
-      // console.log('in getNextBird, bird.species = ', this.state.bird.species);
 
       this.setState({currentBirdIndex: this.state.currentBirdIndex + 1});
     }
@@ -101,6 +98,19 @@ class Game extends React.Component {
     this.setState({speciesEntered: event.target.value});
     if(event.target.value.trim().toLowerCase() === this.state.bird.species.trim().toLowerCase()) {
       this.setState({correctAnswer: true});
+    } else if (this.state.correctAnswer) { // TODO: test the else block
+      this.setState({correctAnswer: false});
+      // NOTE: This is needed in case if someone types in the right answer then changes it to a wrong answer
+    }
+  }
+
+  populateInputFieldWithSearchResult(resultClickedOn) {
+    this.setState({speciesEntered: resultClickedOn});
+    if(resultClickedOn.trim().toLowerCase() === this.state.bird.species.trim().toLowerCase()) {
+      this.setState({correctAnswer: true});
+    } else if (this.state.correctAnswer) { // TODO: test the else block
+      this.setState({correctAnswer: false});
+      // NOTE: This is needed in case if someone types in the right answer then changes it to a wrong answer
     }
   }
 
@@ -123,10 +133,13 @@ class Game extends React.Component {
                onClick={this.playSound}
                  />
         </div>
-        Enter Species: <input type="text"
+        Enter Species: <input className="input-species"
+                              type="text"
                               value={this.state.speciesEntered}
                               onChange={this.onSpeciesEntered}/>
-        <SpeciesSearchResults searchString={this.state.speciesEntered} speciesList={this.state.speciesList}/>
+        <SpeciesSearchResults searchString={this.state.speciesEntered}
+                              speciesList={this.state.speciesList}
+                              populateInputFieldWithSearchResult={this.populateInputFieldWithSearchResult}/>
         <div className="button-container">
         <input className="btn__check--blue"
                type="button"

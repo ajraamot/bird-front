@@ -7,7 +7,7 @@ npm test
 npm start
 
 ### Future enhancements:
-- Game - dropdown in input
+- Game - style search result list
 - enable filtering (speciesSearchResults)
 - allow for non-avian species
 - work on css

@@ -56,8 +56,6 @@ class Game extends React.Component {
     }
   }
 
-  //TODO: There is a bug where a person can keep clicking Show Answer and getting points
-  // maybe to fix this, I can disable the button when it is clicked on and re-enable it when clicking next bird
   showAnswer() {
     if(this.state.correctAnswer) {
       this.setState({
@@ -74,16 +72,17 @@ class Game extends React.Component {
   }
 
   getNextBird(event) {
-    console.log('entering getNextBird!!!!!!!');
+    console.log('entering getNextBird!, currentBirdIndex = ' + this.state.currentBirdIndex);
     this.props.birds.map(this.getNextBirdInfo);
     this.setState({
       isAnswerShown: false,
       speciesEntered: ''
     });
-    console.log('leaving getNextBird!!!!!!!');
+    console.log('leaving getNextBird!, currentBirdIndex = ' + this.state.currentBirdIndex);
   }
 
   getNextBirdInfo(birds, index) {
+    console.log('in getNextBirdInfo, index = ' + index);
     if (index === this.state.currentBirdIndex) {
       this.setState({
         bird: birds,
@@ -144,6 +143,7 @@ class Game extends React.Component {
         <input className="btn__check--blue"
                type="button"
                value="Check Answer"
+               disabled={this.state.isAnswerShown || this.state.speciesEntered.trim() === ''}
                onClick={this.showAnswer} />
           <input className="btn__next--white"
                  type="button"

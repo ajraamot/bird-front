@@ -78,73 +78,135 @@ describe('Game', () => {
     });
   });
 
-  describe('Check Answer when correct answer is entered', () => {
-    beforeEach(() => {
-      game = mount(<Game.WrappedComponent
-        getAllBirds={mockGetAllBirds}
-        birds={[{species: 'Timber Doodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
-      />);
-      game.setState({
-        currentBirdIndex: 0,
-        isAnswerShown: true,
-        correctAnswer: true,
-        bird: {species: 'Timber Doodle', sound: 'peent', image: 'timberdoodle.jpg'}
+  describe('Check Answer', () => {
+    describe('when correct answer is entered', () => {
+      beforeEach(() => {
+        game = mount(<Game.WrappedComponent
+          getAllBirds={mockGetAllBirds}
+          birds={[{species: 'Timber Doodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+        />);
+        game.setState({
+          currentBirdIndex: 0,
+          isAnswerShown: true,
+          correctAnswer: true,
+          bird: {species: 'Timber Doodle', sound: 'peent', image: 'timberdoodle.jpg'}
+        });
+        // game.props.birds = [{species: 'timberdoodle', sound: 'peent', image: 'timberdoodle.jpg'}, {species: 'hummerdoodle', sound: 'zee-chupity-chup', image: 'hummerdoodle.jpg'}];
       });
-      // game.props.birds = [{species: 'timberdoodle', sound: 'peent', image: 'timberdoodle.jpg'}, {species: 'hummerdoodle', sound: 'zee-chupity-chup', image: 'hummerdoodle.jpg'}];
-    });
-    it('displays a message indicating Correct with the answer', () => {
-      expect(game.find('.answer').props().children).toEqual('Correct! Timber Doodle');
-    });
-    it('displays a link to the website', () => {
-      expect(game.find('.url').props().children).toEqual(constants.WEBSITE_URL + 'Timber_Doodle' + '/overview');
-    });
-    it('displays the photo', () => {
-      expect(game.find('img').prop('src')).toEqual(constants.IMAGE_URL + 'timberdoodle.jpg');
-    });
-    it('does not increment the currentBirdIndex', () => {
-      game = shallow(<Game.WrappedComponent
-        getAllBirds={mockGetAllBirds}
-        currentBirdIndex={0}
-        birds={[{species: 'Timber Doodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
-      />);
-      game.find('input').at(2).simulate('click');
-      expect(game.instance().state.currentBirdIndex).toEqual(0);
-    });
-    it('increments the score on correct answer', () => {
-      game = shallow(<Game.WrappedComponent
-        getAllBirds={mockGetAllBirds}
-        // currentBirdIndex={1}
-        // totalShownSoFar={1}
-        // score={1}
-        birds={[{species: 'Timber Doodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'Gammy Bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
-      />);
-      game.find('input').at(1).simulate('change', {target: {value: 'Timber Doodle'}});
-      game.find('input').at(2).simulate('click'); // check answer
-      // expect(game.find('.score').props().children).toEqual('Score: 1 of 1');
+      it('displays a message indicating Correct with the answer', () => {
+        expect(game.find('.answer').props().children).toEqual('Correct! Timber Doodle');
+      });
+      it('displays a link to the website', () => {
+        expect(game.find('.url').props().children).toEqual(constants.WEBSITE_URL + 'Timber_Doodle' + '/overview');
+      });
+      it('displays the photo', () => {
+        expect(game.find('img').prop('src')).toEqual(constants.IMAGE_URL + 'timberdoodle.jpg');
+      });
+      it('disables the check answer button', () => {
+        expect(game.find('input').at(2).prop('disabled')).toEqual(true);
+      });
 
-      game.find('input').at(3).simulate('click'); // next bird
-      game.find('input').at(1).simulate('change', {target: {value: 'Gammy Bird'}});
-      game.find('input').at(2).simulate('click');
-      expect(game.find('.score').props().children).toEqual('Score: 2 of 2');
+      it('does not increment the currentBirdIndex', () => {
+        game = shallow(<Game.WrappedComponent
+          getAllBirds={mockGetAllBirds}
+          currentBirdIndex={0}
+          birds={[{species: 'Timber Doodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+        />);
+        game.find('input').at(2).simulate('click');
+        expect(game.instance().state.currentBirdIndex).toEqual(0);
+      });
+      it('increments the score on correct answer', () => {
+        game = shallow(<Game.WrappedComponent
+          getAllBirds={mockGetAllBirds}
+          // currentBirdIndex={1}
+          // totalShownSoFar={1}
+          // score={1}
+          birds={[{species: 'Timber Doodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'Gammy Bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+        />);
+        game.find('input').at(1).simulate('change', {target: {value: 'Timber Doodle'}});
+        game.find('input').at(2).simulate('click'); // check answer
+        // expect(game.find('.score').props().children).toEqual('Score: 1 of 1');
+
+        game.find('input').at(3).simulate('click'); // next bird
+        game.find('input').at(1).simulate('change', {target: {value: 'Gammy Bird'}});
+        game.find('input').at(2).simulate('click');
+        expect(game.find('.score').props().children).toEqual('Score: 2 of 2');
+      });
+    });
+
+    describe('when the Enter Species field is empty', () => {
+      it('check answer button is disabled', () => {
+        let game;
+        game = shallow(<Game.WrappedComponent
+          getAllBirds={mockGetAllBirds}
+          currentBirdIndex={0}
+          isAnswerShown={false}
+          birds={[{species: 'timberdoodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+        />);
+        game.find('input').at(1).simulate('change', {target: {value: ''}});
+        expect(game.find('input').at(2).prop('disabled')).toEqual(true);
+      });
+    });
+    describe('when the Answer is shown', () => {
+      it('check answer button is disabled', () => {
+        let game;
+        game = shallow(<Game.WrappedComponent
+          getAllBirds={mockGetAllBirds}
+          currentBirdIndex={0}
+          isAnswerShown
+          birds={[{species: 'timberdoodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+        />);
+        expect(game.find('input').at(2).prop('disabled')).toEqual(true);
+      });
+    });
+    describe('when the Enter Species field has input text and answer is not shown', () => {
+      it('check answer button is enabled', () => {
+        let game;
+        game = shallow(<Game.WrappedComponent
+          getAllBirds={mockGetAllBirds}
+          currentBirdIndex={0}
+          isAnswerShown={false}
+          birds={[{species: 'timberdoodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+        />);
+        game.find('input').at(1).simulate('change', {target: {value: 'a'}});
+        expect(game.find('input').at(2).prop('disabled')).toEqual(false);
+      });
     });
   });
 
   describe('Next Bird', () => {
     it('increases the current bird index by 1', () => {
-      let gameWithState;
-      gameWithState = shallow(<Game.WrappedComponent
+      let game;
+      game = shallow(<Game.WrappedComponent
         getAllBirds={mockGetAllBirds}
         currentBirdIndex={0}
-        birds={[{species: 'timberdoodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'}]}
+        birds={[{species: 'timberdoodle', image: 'doodle.jpg', sound: 'peent!'},{species: 'gammy bird', image: 'gammy.jpg', sound: 'ooohhh!'},{species: 'Fweeper', image: 'goldfinch.jpg', sound: 'perchickery!'}]}
             />);
         // }).instance();
-      let originalIndex = game.state.currentBirdIndex;
-      console.log('>>>>>>>>' + gameWithState.find('input').at(3).prop('value'));
+      let originalIndex = game.instance().state.currentBirdIndex;
+      console.log('originalIndex = ' + originalIndex);
+      // console.log('>>>>>>>>' + game.find('input').at(3).prop('value'));
 
-      gameWithState.find('input').at(3).simulate('click');
+      // this first expect passes
+      expect(game.instance().state.currentBirdIndex).toEqual(0);
 
-      expect(gameWithState.instance().state.currentBirdIndex).toEqual(1);
-      // expect(gameWithState.state.currentBirdIndex) == originalIndex + 1;
+      console.log('before first click, currentBirdIndex = ' + game.instance().state.currentBirdIndex);
+      game.find('input').at(3).simulate('click'); // Next Bird
+
+      console.log('after first click, currentBirdIndex = ' + game.instance().state.currentBirdIndex);
+
+      game.find('input').at(3).simulate('click');
+      console.log('after second click, currentBirdIndex = ' + game.instance().state.currentBirdIndex);
+      game.find('input').at(3).simulate('click');
+      console.log('after third click, currentBirdIndex = ' + game.instance().state.currentBirdIndex);
+      game.find('input').at(3).simulate('click');
+      console.log('after fourth click, currentBirdIndex = ' + game.instance().state.currentBirdIndex);
+
+      // this expect fails
+      // I think what is happening is that the currentBirdIndex is iterating to the last bird in the array.
+      // This is happening because the .map() callin getNextBird is causing an iteration through all the elements of the bird array
+      expect(game.instance().state.currentBirdIndex).toEqual(1);
+      // expect(game.state.currentBirdIndex) == originalIndex + 1;
     });
     it('clears the Enter Species field', () => {
       let game;
@@ -161,6 +223,7 @@ describe('Game', () => {
       expect(game.find('input').at(1).prop('value')).toEqual(''); // Error: Expected undefined to equal 'timber doodle'
     });
   });
+
   describe('SpeciesSearchResult', () => {
     it('displays selected SpeciesSearchResults', () => {
       let game;
